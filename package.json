@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && prisma migrate deploy && next build",
-    "start": "next start",
-    "postinstall": "prisma generate"
+    "build": "next build",
+    "start": "prisma migrate deploy && prisma db seed && next start",
+    "postinstall": "DATABASE_URL=${DATABASE_URL:-mysql://x:x@localhost:3306/x} prisma generate"
   },
   "dependencies": {
     "next": "14.2.15",
