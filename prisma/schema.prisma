@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique @db.VarChar(50)
+  balance   Decimal  @default(1000.00) @db.Decimal(10, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+  markets   Market[]
+  bets      Bet[]
+
+  @@map("users")
+}
+
+model Market {
+  id        Int      @id @default(autoincrement())
+  question  String   @db.VarChar(255)
+  creatorId Int      @map("creator_id")
+  yesShares Int      @default(100) @map("yes_shares")
+  noShares  Int      @default(100) @map("no_shares")
+  resolved  Boolean  @default(false)
+  outcome   Boolean?
+  createdAt DateTime @default(now()) @map("created_at")
+  creator   User     @relation(fields: [creatorId], references: [id])
+  bets      Bet[]
+
+  @@map("markets")
+}
+
+model Bet {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  marketId  Int      @map("market_id")
+  side      String   @db.VarChar(3)
+  shares    Int
+  price     Decimal  @db.Decimal(5, 4)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id])
+  market    Market   @relation(fields: [marketId], references: [id])
+
+  @@map("bets")
+}

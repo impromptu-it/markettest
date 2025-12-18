@@ -1,0 +1,1 @@
+now setup next.js with app router, tailwind, and create the basic pages: home (list markets), market detail page, create market page.  Just UI shells with mock data - no API yet.

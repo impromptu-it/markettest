@@ -1,0 +1,1 @@
+build the api routes:  create market, get markets, place bet, get market odds.  wire up prisma to each endpoint.  test with curl examples.
